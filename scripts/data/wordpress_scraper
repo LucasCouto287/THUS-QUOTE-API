@@ -3,3 +3,13 @@ import json
 import os.path
 import time
 import argparse
+
+def get_quotes(url):
+    resp = requests.get("{}/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=30".format(url))
+    if resp.status_code != 200:
+        raise Exception("Bad status code. status_code={}, body={}".format(resp.status_code, resp.body))
+    try:
+        return resp.json()
+    except:
+        print("Error parsing JSON")
+        return None
