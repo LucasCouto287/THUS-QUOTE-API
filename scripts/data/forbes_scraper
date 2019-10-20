@@ -25,3 +25,25 @@ def get_quotes(thoughtId):
     except Exception as e:
         print("Error parsing JSON")
         return []
+
+def get_quote_key(quote):
+    return quote['naturalId']
+
+def scrape_quotes():
+    quotes = {}
+    if os.path.isfile(FILENAME):
+        print("Loading contents from file.")
+        with open(FILENAME, 'r') as infile:
+            quotes = json.load(infile)
+        print("Qoutes: {}".format(len(quotes)))
+    try:
+        i = 0
+        while True:
+            i += 1
+            if str(i) in quotes:
+                continue
+            qs = get_quotes(i)
+            for quote in qs:
+                key = get_quote_key(quote)
+                quotes[key] = quote
+            print("Count={}. Got naturalId={}".format(len(quotes), i))
