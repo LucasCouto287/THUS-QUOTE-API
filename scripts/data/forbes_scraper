@@ -3,3 +3,6 @@ import json
 import os.path
 import time
 import argparse
+
+
+FILENAME = "data/forbes_thoughtapi.json"
