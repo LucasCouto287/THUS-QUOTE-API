@@ -47,3 +47,19 @@ def scrape_quotes():
                 key = get_quote_key(quote)
                 quotes[key] = quote
             print("Count={}. Got naturalId={}".format(len(quotes), i))
+except KeyboardInterrupt:
+        pass
+    except Exception:
+        print("Finishing. Writing to file.")
+        with open(FILENAME, 'w') as outfile:
+            json.dump(quotes, outfile)
+        print("Qoutes: {}".format(len(quotes)))
+        raise
+
+    print("Finishing. Writing to file.")
+    with open(FILENAME, 'w') as outfile:
+        json.dump(quotes, outfile)
+    print("Qoutes: {}".format(len(quotes)))
+
+if __name__ == "__main__":
+    scrape_quotes()
