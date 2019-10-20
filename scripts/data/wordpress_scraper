@@ -38,3 +38,20 @@ def scrape_quotes(url, filename):
             json.dump(quotes, outfile)
         print("Qoutes: {}".format(len(quotes)))
         raise
+
+    print("Finishing. Writing to file.")
+    with open(filename, 'w') as outfile:
+        json.dump(quotes, outfile)
+    print("Qoutes: {}".format(len(quotes)))
+    import pdb; pdb.set_trace()
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Works with WordPress API')
+    parser.add_argument('--site', action="store", help="Wordpress site to scrape")
+    parser.add_argument('--file', action="store", help="JSON file to operate on")
+    args = parser.parse_args()
+
+    if args.site is None or args.file is None:
+        parser.print_help()
+        exit(1)
+    scrape_quotes(args.site, args.file)
