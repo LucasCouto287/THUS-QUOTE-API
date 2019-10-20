@@ -13,3 +13,28 @@ def get_quotes(url):
     except:
         print("Error parsing JSON")
         return None
+def get_quote_key(quote):
+    return quote['ID']
+
+def scrape_quotes(url, filename):
+    quotes = {}
+    if os.path.isfile(filename):
+        print("Loading contents from file.")
+        with open(filename, 'r') as infile:
+            quotes = json.load(infile)
+        print("Qoutes: {}".format(len(quotes)))
+    try:
+        while True:
+            quote = get_quotes(url)
+            for q in quote:
+                key = get_quote_key(q)
+                quotes[key] = q
+            print("Count={}".format(len(quotes)))
+    except KeyboardInterrupt:
+        pass
+    except Exception:
+        print("Finishing. Writing to file.")
+        with open(filename, 'w') as outfile:
+            json.dump(quotes, outfile)
+        print("Qoutes: {}".format(len(quotes)))
+        raise
