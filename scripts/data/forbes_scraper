@@ -6,3 +6,22 @@ import argparse
 
 
 FILENAME = "data/forbes_thoughtapi.json"
+
+
+def get_quotes(thoughtId):
+    resp = requests.get("https://www.forbes.com/forbesapi/thought/uri.json?enrich=true&query={thoughtId}&relatedlimit=1000".format(thoughtId=thoughtId))
+    if resp.status_code != 200:
+        raise Exception("Bad status code. status_code={}, body={}".format(resp.status_code, resp.body))
+    try:
+        quotes = []
+        data = resp.json()['thought']
+        quotes += data['relatedAuthorThoughts']
+        quotes += data['relatedThemeThoughts']
+
+        del data['relatedThemeThoughts']
+        del data['relatedAuthorThoughts']
+        quotes.append(data)
+        return quotes
+    except Exception as e:
+        print("Error parsing JSON")
+        return []
