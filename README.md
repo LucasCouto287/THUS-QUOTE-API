@@ -1,4 +1,4 @@
-# THUS-QUOTE-API
+# THUS-QUOTE-API 📋 
 
 An API for quotes!
 
